@@ -1,0 +1,11 @@
+id,kind,pre,post,expected_pre,expected_post,ok,flips,hmac_pre,hmac_post,description
+p01_tab_before_end,pos,False,True,False,True,True,True,ACCEPTED_AS_HMAC,REJECTED_ASYMMETRIC,tab inserted before END marker (upstream mutation)
+p02_cr_only,pos,False,True,False,True,True,True,ACCEPTED_AS_HMAC,REJECTED_ASYMMETRIC,LF replaced by CR (upstream mutation)
+p03_no_newlines,pos,False,True,False,True,True,True,ACCEPTED_AS_HMAC,REJECTED_ASYMMETRIC,all newlines removed (upstream mutation)
+p04_space_dashes,pos,False,True,False,True,True,True,ACCEPTED_AS_HMAC,REJECTED_ASYMMETRIC,space between PEM label and closing dashes
+n01_canonical,neg,True,True,True,True,True,False,REJECTED_ASYMMETRIC,REJECTED_ASYMMETRIC,well-formed PEM with LF
+n02_hmac_secret,neg,False,False,False,False,True,False,ACCEPTED_AS_HMAC,ACCEPTED_AS_HMAC,"random HMAC secret, no PEM markers"
+n03_begin_only,neg,False,False,False,False,True,False,ACCEPTED_AS_HMAC,ACCEPTED_AS_HMAC,BEGIN without END (upstream incomplete-marker case)
+n04_empty,neg,False,False,False,False,True,False,ACCEPTED_AS_HMAC,ACCEPTED_AS_HMAC,empty key
+n05_ssh_rsa_line,neg,False,False,False,False,True,False,ACCEPTED_AS_HMAC,ACCEPTED_AS_HMAC,"SSH public key line (not PEM); detected by is_ssh_key, not is_pem_format"
+n06_crlf_canonical,neg,True,True,True,True,True,False,REJECTED_ASYMMETRIC,REJECTED_ASYMMETRIC,canonical PEM with CRLF (still matches the pre regex)
